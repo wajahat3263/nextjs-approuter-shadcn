@@ -1,34 +1,53 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+### Join the community & report bugs
 
-## Getting Started
+If you wish to report an issue, please join our [Discord](https://discord.swap.defillama.com/)
 
-First, run the development server:
+If you want to learn about LlamaSwap, read the [Twitter Thread](https://twitter.com/DefiLlama/status/1609989799653285888)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+### Integration
+
+The best way to integrate is through an iframe of our page, like this:
+
+```html
+<iframe
+	title="LlamaSwap Widget"
+	name="LlamaSwap Widget"
+	src="https://swap.defillama.com?chain=ethereum"
+	width="450px"
+	height="565px"
+	allow="fullscreen"
+	marginwidth="0"
+	marginheight="0"
+	frameborder="0"
+	scrolling="no"
+	loading="eager"
+></iframe>
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The widget is responsive, so you can change the width and height in any way you want and the widget will adjust to fit the space. On top of that, you can customize the widget by adding the following params to the query url:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- chain: default chain (eg `chain=ethereum`). This parameter is required
+- from: token to sell, to use the gas token for the chain use 0x0000000000000000000000000000000000000000 (eg `from=0x0000000000000000000000000000000000000000`)
+- to: token to buy, to use the gas token for the chain use 0x0000000000000000000000000000000000000000 (eg `to=0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48`)
+- background: color of the background (eg `background=rgb(10,20,30)`)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Note: only tokens that are part of our token lists are accepted in `from` and `to`, this is to prevent scammers linking to llamaswap with fake tokens loaded (eg a fake USDC)
 
-## Learn More
+#### API integration
 
-To learn more about Next.js, take a look at the following resources:
+Widget integrations are preferred cause:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Our widget handles all different dex integrations, which are quite different (cowswap requires signing a message while most others send a tx onchain)
+- Our widget shows warnings for price impact and other things that could impact negatively your users
+- In case there's any issue we can push a fix to everybody by just updating the site behind the iframe
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+But if you'd prefer to instead integrate through our API please contact @0xngmi on discord through defillama's discord and ask for an api key. We are forced to use api keys because many of the underlying aggregators have rate limits, so we have to control the volume of requests we send to them.
 
-## Deploy on Vercel
+### Running the app locally
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+yarn install
+yarn dev
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Visit: http://localhost:3000/
